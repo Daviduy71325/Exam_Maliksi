@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
       main .header h1 {
@@ -32,6 +32,7 @@
         border: 1px solid #ddd;
         border-radius: 3px;
         padding: 0 10px;
+        box-sizing: border-box;
       }
       [type='submit']:active {
         background-color: #8ac7db;
@@ -59,7 +60,7 @@
         const user = document.getElementById('user').value;
         const password = document.getElementById('pass').value;
 
-        if (user == '') {
+        if (!user.trim() || !password.trim()) {
           return console.log('empty');
         }
 
@@ -68,18 +69,34 @@
 
         const data = { user, password };
 
-        fetch('/api/login', {
+        fetch('http://localhost:5000/api/login', {
           method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
           cache: 'no-cache',
-          body: JSON.stringify(data),
+          body: JSON.stringify(user),
         })
           .then((response) => {
-            console.log(response);
+            if (response.ok) return response.json();
+
+            throw new Error('mali');
+          })
+          .then((data) => {
+            localStorage.setItem('userdata', JSON.stringify(data.user));
+
+            setTimeout(() => {
+              location.href = data.redirect;
+              console.log(localStorage.getItem('userdata'));
+            }, 1000);
           })
           .catch((err) => {
-            console.log(err);
+            console.log('error', err.message);
           });
       }
+
+      //hindi na kailangan
       window.onload = function () {
         const submit = document.getElementById('submit');
         submit.addEventListener('click', login);
@@ -90,13 +107,11 @@
     <main>
       <div class="header"><h1>Login</h1></div>
 
-      <form id="formLogin">
+      <form id="formLogin" onsubmit="login()">
         <div class="input">
-          <!-- error there is no type and no closing tag -->
           <input id="user" type="text" placeholder="Username" autofocus />
         </div>
         <div class="input">
-          <!-- error there is no type password and no closing tag-->
           <input id="pass" type="password" placeholder="password" />
         </div>
         <button type="submit" id="submit">Login</button>
