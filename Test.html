@@ -95,17 +95,17 @@
       }
 
       //hindi na kailangan
-      window.onload = function () {
-        const submit = document.getElementById('submit');
-        submit.addEventListener('click', login);
-      };
+      //   window.onload = function () {
+      //     const submit = document.getElementById('submit');
+      //     submit.addEventListener('click', login);
+      //   };
     </script>
   </head>
   <body>
     <main>
       <div class="header"><h1>Login</h1></div>
 
-      <form id="formLogin" onsubmit="login()">
+      <form id="formLogin" onsubmit="login(event)">
         <div class="input">
           <input id="user" type="text" placeholder="Username" autofocus />
         </div>
