@@ -74,7 +74,7 @@
             'Content-Type': 'application/json',
           },
           cache: 'no-cache',
-          body: JSON.stringify(user),
+          body: JSON.stringify(data),
         })
           .then((response) => {
             if (response.ok) return response.json();
