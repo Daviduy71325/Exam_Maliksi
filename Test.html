@@ -60,9 +60,7 @@
         const user = document.getElementById('user').value;
         const password = document.getElementById('pass').value;
 
-        if (!user.trim() || !password.trim()) {
-          return console.log('empty');
-        }
+        if (!user.trim() || !password.trim()) return console.log('empty');
 
         localStorage.setItem('user', user);
         localStorage.setItem('pass', password);
@@ -81,7 +79,7 @@
           .then((response) => {
             if (response.ok) return response.json();
 
-            throw new Error('mali');
+            throw new Error('error');
           })
           .then((data) => {
             localStorage.setItem('userdata', JSON.stringify(data.user));
